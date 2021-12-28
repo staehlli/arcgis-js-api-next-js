@@ -1,6 +1,10 @@
 import Link from "next/link";
 import Head from "next/head";
-import Map from "../../components/webmap";
+import dynamic from "next/dynamic";
+
+const Map = dynamic(() => import("../../components/webmap.js"), {
+  ssr: false,
+});
 
 export default function CovidMap() {
   return (
@@ -25,7 +29,6 @@ export default function CovidMap() {
       <div id="mapContainer">
         <Map
           portalItemId="19bfb47dc2e7435b9060bd82922035e9"
-          containerId="viewDiv"
         />
       </div>
 

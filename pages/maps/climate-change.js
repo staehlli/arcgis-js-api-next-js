@@ -1,6 +1,10 @@
 import Link from "next/link";
 import Head from "next/head";
-import Map from "../../components/webmap";
+import dynamic from "next/dynamic";
+
+const Map = dynamic(() => import("../../components/webmap.js"), {
+  ssr: false,
+});
 
 export default function ClimateChangeMap() {
   return (
@@ -25,7 +29,6 @@ export default function ClimateChangeMap() {
       <div id="mapContainer">
         <Map
           portalItemId="6e01f2273d1e48ad83d786af68330f6a"
-          containerId="viewDiv"
         />
       </div>
 

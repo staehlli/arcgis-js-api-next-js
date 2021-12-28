@@ -2,11 +2,11 @@ import WebMap from "@arcgis/core/WebMap";
 import MapView from "@arcgis/core/views/MapView";
 import Legend from "@arcgis/core/widgets/Legend";
 
-import { useState, useEffect, useRef } from "react";
+import React, { useEffect, useState } from "react";
 
 export default function Map({ portalItemId }) {
   const [viewLoaded, setViewLoaded] = useState(false);
-  const viewRef = useRef();
+  const viewRef = React.createRef();
 
   async function loadMap() {
     if (viewRef.current) {
@@ -22,19 +22,20 @@ export default function Map({ portalItemId }) {
         container: viewRef.current.id,
       });
 
-      view.when(() => setViewLoaded(true));
+      view.when(() => {
+        const legend = new Legend({
+          view: view,
+        });
 
-      const legend = new Legend({
-        view: view
+        view.ui.add(legend, "bottom-right");
       });
-      
-      view.ui.add(legend, "bottom-right");
     }
   }
 
   useEffect(async () => {
     if (!viewLoaded) {
       await loadMap();
+      setViewLoaded(true);
     }
   }, []);
 
